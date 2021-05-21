@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Heelo World</h1>
+    <img src="http://localhost:3000/static/a.jpg" alt="pic" />
+    <div id="name"></div>
+    <div id="ages"></div>
+    <div id="name-under"></div>
+    Enter Ticket( 1 Ticket = 50 baht )
+    <input type="number" id="input-ticket" onchange="submitForm()"/><br />
+    Prices: <div id="price"></div>
+    <button id="submit-button" onchange="submitForm()">Calculate</button>
+    <script type="text/javascript">
+        function submitForm() {
+            console.log("Click")
+            const input = document.getElementById("input-ticket").value
+            console.log(input)
+            const data = { ticket: input }
+            console.log(data)
+            fetch('http://localhost:3000/cal/prices', {
+                method: 'POST', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    const prices = data.prices
+                    console.log(prices)
+                    document.getElementById("price").innerHTML = prices 
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+
+</html>
